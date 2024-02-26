@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Services\Api\Response\HasApiResponse;
 use App\Services\Cache\Contract\CacheContract;
-use Illuminate\Http\Request;
 
 class StatsController extends Controller
 {

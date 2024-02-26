@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\PostController;
 use App\Http\Controllers\Api\V1\TagController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +20,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('/user-verify', [AuthController::class, 'verify']);
-    Route::get('/stats', \App\Http\Controllers\Api\StatsController::class);
+    Route::get('/stats', \App\Http\Controllers\Api\V1\StatsController::class);
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::group(['middleware' => ['verified-user']], function () {
             Route::apiResource('tags', TagController::class)->except([
