@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use SoftDeletes ,RestCache;
+    use SoftDeletes ,RestCache,HasFactory;
 
     protected $fillable = [
         'title', 'cover_image', 'body', 'pinned', 'user_id'

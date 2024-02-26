@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\PostController;
+use App\Http\Controllers\Api\V1\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,10 +24,12 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/stats', \App\Http\Controllers\Api\StatsController::class);
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::group(['middleware' => ['verified-user']], function () {
-            Route::apiResource('tags',\App\Http\Controllers\Api\V1\TagController::class)->except([
+            Route::apiResource('tags', TagController::class)->except([
                 'show'
             ]);
-            Route::apiResource('posts',\App\Http\Controllers\Api\V1\PostController::class);
+            Route::get('posts/trashed',[PostController::class,'trashed'])->withTrashed();
+            Route::post('posts/{post}/restore',[PostController::class,'restore'])->withTrashed();
+            Route::apiResource('posts', PostController::class);
         });
     });
 });

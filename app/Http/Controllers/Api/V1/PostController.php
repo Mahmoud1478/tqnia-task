@@ -19,7 +19,20 @@ class PostController extends Controller
     public function index()
     {
         return $this->successResponse(
-            PostCollection::make(auth()->user()->posts()->with('tags')->paginate())
+            PostCollection::make(
+                auth()->user()->posts()->orderBy('pinned','desc')
+                ->with('tags')->paginate()
+            )
+        );
+    }
+    public function trashed()
+    {
+        return $this->successResponse(
+            PostCollection::make(
+                auth()->user()->posts()->orderBy('pinned','desc')
+                    ->onlyTrashed()->with('tags')
+                    ->paginate()
+            )
         );
     }
 
@@ -77,6 +90,14 @@ class PostController extends Controller
         abort_unless($post->user_id == auth()->id(), 404);
         $post->delete();
         return $this->successMessageResponse('Data deleted Successfully');
+
+    }
+
+    public function restore(Post $post)
+    {
+        abort_unless($post->user_id == auth()->id(), 404);
+        $post->restore();
+        return $this->successMessageResponse('Data restored Successfully');
 
     }
 }
